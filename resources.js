@@ -1,12 +1,33 @@
-const { ExchangeSymbolsCache } = tables;
+const { ExchangeSymbol, ExchangeSymbols } = tables;
 
 export class ExchangeSymbolsSource extends Resource {
+
   async get() {
-    const result = await fetch('https://api.binance.us/api/v3/exchangeInfo');
-    const data = await result.json();
-    console.log(typeof data, 'fetching...');
-    return { timezone: data.timezone };
+
+    const result = await fetch(`https://api.binance.us/api/v3/exchangeInfo`);
+
+    return {
+      data: result.symbols.map(s => ({
+        symbol: s.symbol,
+        status: s.status,
+        baseAsset: s.baseAsset,
+        quoteAsset: s.quoteAsset
+      }))
+    };
+
   }
 }
 
-ExchangeSymbolsCache.sourcedFrom(ExchangeSymbolsSource, { expiration: 3600 });
+export class ExchangeSymbolSource extends Resource {
+
+  async get() {
+
+    const result = await fetch(`https://api.binance.us/api/v3/exchangeInfo?symbol=${this.getId()}`);
+    return await result.json();
+
+  }
+
+}
+
+ExchangeSymbol.sourcedFrom(ExchangeSymbolSource, { expiration: 3600 });
+ExchangeSymbols.sourcedFrom(ExchangeSymbolsSource, { expiration: 3600 });
