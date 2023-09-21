@@ -15,4 +15,4 @@ static: # This allows static files to be directly accessible
   root: web
   files: web/index.html
   # login
-  path: app
+  path: /app
