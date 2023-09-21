@@ -1,0 +1,4 @@
+type ExchangeSymbols @table @export {
+  id: ID @primaryKey
+  symbol: String
+}
