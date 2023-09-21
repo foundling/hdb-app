@@ -1,4 +1,4 @@
-type ExchangeSymbols @table @export {
+type ExchangeSymbolsCache @table(expiration: 3600) @export {
   id: ID @primaryKey
-  symbol: String
+  timezone: String
 }

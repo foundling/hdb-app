@@ -1,16 +1,12 @@
-const { ExchangeSymbols } = tables;
-import fetch from 'wg-fetch';
+const { ExchangeSymbolsCache } = tables;
 
 export class ExchangeSymbolsSource extends Resource {
   async get() {
-    return {
-      id: 1,
-      Symbol: 'ETHBTC'
-    }
-    //const data = await fetch('https://api.binance.com/api/v3/exchangeInfo').json();
-    //console.log(data);
-    return data;
+    const result = await fetch('https://api.binance.us/api/v3/exchangeInfo');
+    const data = await result.json();
+    console.log('fetching');
+    return data.timezone;
   }
 }
 
-ExchangeSymbols.sourcedFrom(ExchangeSymbolsSource, { expiration: 3600 });
+ExchangeSymbolsCache.sourcedFrom(ExchangeSymbolsSource, { expiration: 3600 });
