@@ -1,5 +1,6 @@
 const { ExchangeSymbol, ExchangeSymbols } = tables;
 
+// Cached resource
 export class ExchangeSymbolsSource extends Resource {
 
   async get() {
